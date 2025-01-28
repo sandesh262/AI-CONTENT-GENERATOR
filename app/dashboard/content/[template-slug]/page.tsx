@@ -14,16 +14,18 @@ import { AiOutput } from '@/utils/schema'
 import { useUser } from '@clerk/nextjs'
 import { TotalUsageContext } from '@/app/(context)/TotalUsageContext'
 
-// Update the type definition
-type PageProps = {
-  params: {
-    'template-slug': string;
-  };
-  searchParams?: { [key: string]: string | string[] | undefined };
+interface PageParams {
+  'template-slug': string;
 }
 
-export default function Page({ params }: PageProps) {
-  const selectedtemplate: TEMPLATE|undefined = Templates?.find((item) => item.slug === params['template-slug'])
+export default function Page({ 
+  params 
+}: { 
+  params: PageParams 
+}) {
+  const selectedtemplate: TEMPLATE|undefined = Templates?.find(
+    (item) => item.slug === params['template-slug']
+  )
   const [loading, setLoading] = useState(false);
   const [aiOutput, setAiOutput] = useState<string>('');
   const {user} = useUser();
@@ -36,10 +38,10 @@ export default function Page({ params }: PageProps) {
     }
     
     setLoading(true);
-    const selectedPrompt = selectedtemplate?.aiPrompt;
-    const finalPrompt = JSON.stringify(formData) + ", " + selectedPrompt;
-  
     try {
+      const selectedPrompt = selectedtemplate?.aiPrompt;
+      const finalPrompt = JSON.stringify(formData) + ", " + selectedPrompt;
+    
       const result = await chatSession.sendMessage(finalPrompt);
       const responseText = result?.response.text();
       setAiOutput(responseText);
