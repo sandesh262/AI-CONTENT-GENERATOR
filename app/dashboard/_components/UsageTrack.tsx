@@ -1,15 +1,15 @@
 'use client'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 import { db } from '@/utils/db';
 import { AiOutput } from '@/utils/schema';
-import { useUser } from '@clerk/nextjs'
-import React, { useContext, useEffect, useState } from 'react'
+import { useUser } from '@clerk/nextjs';
+import React, { useContext, useEffect, useState } from 'react';
 import { HISTORY } from '../history/page';
 import { eq } from 'drizzle-orm';
 import { TotalUsageContext } from '@/app/(context)/TotalUsageContext';
-import { Dialog, DialogContent, DialogTrigger } from "../../../components/ui/dialog"
+import { Dialog, DialogContent, DialogTrigger } from "../../../components/ui/dialog";
 import PricingPlans from '../billing/_components/PricingPlans';
-import { useToast } from "../../../hooks/use-toast"
+import { useToast } from "../../../hooks/use-toast";
 
 function UsageTrack() {
   const { user } = useUser();
@@ -23,36 +23,38 @@ function UsageTrack() {
 
   const { totalUsage, setTotalUsage, isCreditsAvailable, setIsCreditsAvailable } = context;
 
-  useEffect(()=>{
-    user&&getData(user);
-  }, [user])
+  useEffect(() => {
+    if (user) {
+      getData(user);
+    }
+  }, [user]);
 
-  const getData = async(user:any)=>{
+  const getData = async (user: any) => {
     try {
       const result: typeof AiOutput[] = await db.select().from(AiOutput)
-        .where(eq(AiOutput.createdBy, user?.primaryEmailAddress?.emailAddress))
-      getTotalUsage(result)
+        .where(eq(AiOutput.createdBy, user?.primaryEmailAddress?.emailAddress));
+      getTotalUsage(result);
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Error",
         description: "Failed to fetch usage data.",
-      })
+      });
     }
-  }
+  };
 
-  const getTotalUsage=(result:HISTORY[])=>{
-    let total:number=0;
+  const getTotalUsage = (result: HISTORY[]) => {
+    let total: number = 0;
     result.forEach(element => {
-      total = total+Number(element.aiResponse?.length);
+      total += Number(element.aiResponse?.length);
     });
     setTotalUsage(total);
     setIsCreditsAvailable(total < 20000);
-  }
+  };
 
   const handleUpgradeClick = () => {
     setIsUpgradeOpen(true);
-  }
+  };
 
   return (
     <div className='m-5'>
@@ -65,7 +67,7 @@ function UsageTrack() {
         <div className='h-2 bg-[#9981f9] w-full rounded-full mt-3'>
           <div className='h-2 bg-white rounded-full'
             style={{
-              width:`${Math.min((totalUsage / 20000) * 100, 100)}%`
+              width: `${Math.min((totalUsage / 20000) * 100, 100)}%`
             }}>
           </div>
         </div>
@@ -92,8 +94,7 @@ function UsageTrack() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }
 
-
-export default UsageTrack
+export default UsageTrack;
