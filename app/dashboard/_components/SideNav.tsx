@@ -7,59 +7,61 @@ import Link from 'next/link'
 import UsageTrack from './UsageTrack'
 import { UserButton } from '@clerk/nextjs'
 
-function  SideNav() {
+function SideNav() {
   const MenuList = [
     {
       name: 'Home', 
-      icon:Home,
-      path:'/dashboard/'
+      icon: Home,
+      path: '/dashboard/'
     },
     {
       name: 'History', 
-      icon:LucideFileClock,
-      path:'/dashboard/history'
+      icon: LucideFileClock,
+      path: '/dashboard/history'
     },
     {
       name: 'Billing', 
-      icon:WalletCards,
-      path:'/dashboard/billing'
+      icon: WalletCards,
+      path: '/dashboard/billing'
     },
     {
       name: 'Setting', 
-      icon:Settings,
-      path:'/dashboard/settings'
+      icon: Settings,
+      path: '/dashboard/settings'
     }
   ]
+  
   const path = usePathname();
-  useEffect(()=>{
+  
+  useEffect(() => {
     console.log(path)
-  },[]);
+  }, []);
+  
   return (
     <div className='h-screen relative p-5 shadow-sm border bg-white'>
       <div className='p-2 flex justify-center'>
-        <Link href = {'/'}><Image src={'/logo.svg'} alt='logo' width={160} height={100}/></Link>
-      
+        <Link href={'/'}><Image src={'/logo.svg'} alt='logo' width={160} height={100} /></Link>
       </div>
       <hr className='my-6 border'/>
       <div className='mt-3'>
-      <div className='flex items-center gap-2 mb-1 p-3'>
-      <UserButton/>
-      <h2 className='text-lg'>Profile</h2>
-      </div>
-        {MenuList.map((menu, index)=>(
-          <Link href = {menu.path}>
-          <div className={`flex gap-2 mb-2 p-3
-          hover:bg-primary hover:text-white rounded-lg cursor-pointer items-center ${path==menu.path&&'bg-primary text-white'}`}>
-            <menu.icon className='h-6 w-6'/>
-            <h2 className='text-lg'>{menu.name}</h2>
-          </div>
+        <div className='flex items-center gap-2 mb-1 p-3'>
+          <UserButton />
+          <h2 className='text-lg'>Profile</h2>
+        </div>
+        {MenuList.map((menu) => (
+          <Link key={menu.path} href={menu.path}>
+            <div className={`flex gap-2 mb-2 p-3
+              hover:bg-primary hover:text-white rounded-lg cursor-pointer items-center ${path == menu.path && 'bg-primary text-white'}`}
+            >
+              <menu.icon className='h-6 w-6' />
+              <h2 className='text-lg'>{menu.name}</h2>
+            </div>
           </Link>
         ))}
       </div>
       <div className='absolute bottom-10 left-0 w-full'>
-        <UsageTrack/>
+        <UsageTrack />
       </div>
-      
     </div>
   )
 }
