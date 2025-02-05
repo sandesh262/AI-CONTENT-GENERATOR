@@ -11,13 +11,16 @@ function DashboardLayout({
 }>) {
   const [totalUsage, setTotalUsage] = useState<number>(0);
   const [userPlan, setUserPlan] = useState<string>('free');
+  const [isCreditsAvailable, setIsCreditsAvailable] = useState(true);
 
   return (
     <TotalUsageContext.Provider value={{ 
       totalUsage, 
       setTotalUsage, 
       userPlan, 
-      setUserPlan 
+      setUserPlan,
+      isCreditsAvailable,
+      setIsCreditsAvailable
     }}>
       <div className='bg-slate-100 min-h-screen'>
         <div className='md:w-64 hidden md:block fixed h-full'>

@@ -89,7 +89,7 @@ function OutputSection({ aiOutput }: PROPS) {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
-                    variant={copied ? "success" : "primary"}
+                    variant={copied ? "secondary" : "default"}
                     className={`h-9 px-3 transition-all duration-200 ${
                       copied ? 'bg-green-50 text-green-600 border-green-200' : ''
                     }`}

@@ -94,7 +94,7 @@ export default function PricingPlans({ onSuccess }: PricingPlansProps) {
     }
 
     return (
-        <PayPalScriptProvider options={{ "client-id": PAYPAL_CLIENT_ID }}>
+        <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID }}>
 
             <div className="container mx-auto px-4 py-8">
                 <h1 className="text-2xl font-bold text-center mb-8">

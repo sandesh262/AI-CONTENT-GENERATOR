@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, BookOpen, Settings2, Shapes, MessageCircleMore } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 const features = [

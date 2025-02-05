@@ -31,7 +31,7 @@ function UsageTrack() {
 
   const getData = async (user: any) => {
     try {
-      const result: typeof AiOutput[] = await db.select().from(AiOutput)
+      const result: (typeof AiOutput.$inferSelect)[] = await db.select().from(AiOutput)
         .where(eq(AiOutput.createdBy, user?.primaryEmailAddress?.emailAddress));
       getTotalUsage(result);
     } catch (error) {
@@ -43,10 +43,10 @@ function UsageTrack() {
     }
   };
 
-  const getTotalUsage = (result: HISTORY[]) => {
+  const getTotalUsage = (result: (typeof AiOutput.$inferSelect)[]) => {
     let total: number = 0;
     result.forEach(element => {
-      total += Number(element.aiResponse?.length);
+      total += Number(element.aiResponse?.length || 0);
     });
     setTotalUsage(total);
     setIsCreditsAvailable(total < 20000);
